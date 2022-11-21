@@ -8,12 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+// annotations for spring data jpa, it does the sql for us -> @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public class ReviewEntity {
+    // identity -> not increment
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

@@ -34,14 +34,10 @@ public class PokemonController {
     }
 
     // build endpoints
+    // getPokemons
     @GetMapping("pokemon")
-    public ResponseEntity<List<PokemonEntity>> getPokemons() {
-        List<PokemonEntity> pokemons = new ArrayList<>();
-        pokemons.add(new PokemonEntity(1, "Squirtle", "Water"));
-        pokemons.add(new PokemonEntity(2, "Pikachu", "Electric"));
-        pokemons.add(new PokemonEntity(3, "Charmander", "Fire"));
-
-        return ResponseEntity.ok(pokemons);
+    public ResponseEntity<List<PokemonDto>> getPokemons() {
+        return ResponseEntity.ok().body(pokemonService.getPokemon());
     }
 
     @GetMapping("pokemon/{id}")
@@ -51,6 +47,7 @@ public class PokemonController {
         return ResponseEntity.ok().body(pokemon);
     }
 
+    // createPokemon
     @PostMapping("/pokemon/create")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PokemonDto> createPokemon(@RequestBody PokemonDto pokemonDto) {

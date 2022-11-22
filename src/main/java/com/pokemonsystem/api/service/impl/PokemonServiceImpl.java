@@ -7,6 +7,9 @@ import com.pokemonsystem.api.service.PokemonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PokemonServiceImpl implements PokemonService {
     private PokemonRepository pokemonRepository;
@@ -14,6 +17,13 @@ public class PokemonServiceImpl implements PokemonService {
     @Autowired
     public PokemonServiceImpl(PokemonRepository pokemonRepository) {
         this.pokemonRepository = pokemonRepository;
+    }
+
+    @Override
+    public List<PokemonDto> getPokemon() {
+        List<PokemonEntity> pokemons = pokemonRepository.findAll();
+
+        return pokemons.stream().map(pokemon -> mapToDto(pokemon)).collect(Collectors.toList());
     }
 
     @Override
@@ -30,4 +40,26 @@ public class PokemonServiceImpl implements PokemonService {
 
         return pokemonResponse;
     }
+
+    private PokemonDto mapToDto(PokemonEntity pokemon) {
+        PokemonDto pokemonDto = new PokemonDto();
+
+        pokemonDto.setId(pokemon.getId());
+        pokemonDto.setName(pokemon.getName());
+        pokemonDto.setType(pokemon.getType());
+
+        return pokemonDto;
+    }
+
+    private PokemonEntity mapToEntity(PokemonDto pokemonDto) {
+        PokemonEntity pokemon = new PokemonEntity();
+
+        pokemon.setId(pokemonDto.getId());
+        pokemon.setName(pokemonDto.getName());
+        pokemon.setType(pokemonDto.getType());
+
+        return pokemon;
+    }
+
+
 }

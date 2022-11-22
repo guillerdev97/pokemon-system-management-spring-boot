@@ -55,6 +55,19 @@ public class PokemonServiceImpl implements PokemonService {
         return pokemonResponse;
     }
 
+    @Override
+    public PokemonDto updatePokemon(PokemonDto pokemonDto, int id) {
+        PokemonEntity pokemon = pokemonRepository.findById(id)
+                .orElseThrow(() -> new PokemonNotFoundException("Pokemon could not be found"));
+
+        pokemon.setName(pokemonDto.getName());
+        pokemon.setType(pokemonDto.getType());
+
+        PokemonEntity updatePokemon = pokemonRepository.save(pokemon);
+
+        return mapToDto(updatePokemon);
+    }
+
     private PokemonDto mapToDto(PokemonEntity pokemon) {
         PokemonDto pokemonDto = new PokemonDto();
 

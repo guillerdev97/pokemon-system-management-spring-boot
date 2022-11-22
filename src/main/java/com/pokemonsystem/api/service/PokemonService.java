@@ -10,4 +10,6 @@ public interface PokemonService {
     PokemonDto detailPokemon(int  id);
 
     PokemonDto createPokemon(PokemonDto pokemonDto);
+
+    PokemonDto updatePokemon(PokemonDto pokemonDto, int id);
 }

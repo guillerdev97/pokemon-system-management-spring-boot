@@ -3,29 +3,16 @@ package com.pokemonsystem.api.controllers;
 import com.pokemonsystem.api.dto.PokemonDto;
 import com.pokemonsystem.api.models.PokemonEntity;
 import com.pokemonsystem.api.service.PokemonService;
-import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-
-// stub
-
-/*
-getPokemons
-pokemonDetail
-createPokemon
-updatePokemon
-deletePokemon
- */
 
 @RestController
 @RequestMapping("/api/")
 public class PokemonController {
-    // inject service
     private PokemonService pokemonService;
 
     @Autowired
@@ -33,7 +20,6 @@ public class PokemonController {
         this.pokemonService = pokemonService;
     }
 
-    // build endpoints
     @GetMapping("pokemon")
     public ResponseEntity<List<PokemonDto>> getPokemons() {
         return ResponseEntity.ok().body(pokemonService.getPokemon());
@@ -52,12 +38,11 @@ public class PokemonController {
     }
 
     @PutMapping("/pokemon/{id}/update")
-    public ResponseEntity<PokemonEntity> updatePokemon(@RequestBody PokemonEntity pokemon,
+    public ResponseEntity<PokemonDto> updatePokemon(@RequestBody PokemonDto pokemonDto,
                                                        @PathVariable("id") int pokemonId) {
-        System.out.println(pokemon.getName());
-        System.out.println(pokemon.getType());
+        PokemonDto response = pokemonService.updatePokemon(pokemonDto, pokemonId);
 
-        return ResponseEntity.ok(pokemon);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/pokemon/{id}/delete")

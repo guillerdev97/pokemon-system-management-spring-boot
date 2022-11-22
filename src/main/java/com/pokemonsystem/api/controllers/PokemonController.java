@@ -21,8 +21,11 @@ public class PokemonController {
     }
 
     @GetMapping("pokemon")
-    public ResponseEntity<List<PokemonDto>> getPokemons() {
-        return ResponseEntity.ok().body(pokemonService.getPokemon());
+    public ResponseEntity<List<PokemonDto>> getPokemons(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+    ) {
+        return ResponseEntity.ok().body(pokemonService.getPokemon(pageNo, pageSize));
     }
 
     @GetMapping("pokemon/{id}")

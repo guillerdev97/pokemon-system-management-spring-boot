@@ -5,7 +5,7 @@ import com.pokemonsystem.api.dto.PokemonDto;
 import java.util.List;
 
 public interface PokemonService {
-    List<PokemonDto> getPokemon();
+    List<PokemonDto> getPokemon(int pageNo, int pageSize);
 
     PokemonDto detailPokemon(int  id);
 

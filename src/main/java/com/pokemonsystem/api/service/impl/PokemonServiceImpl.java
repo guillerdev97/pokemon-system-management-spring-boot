@@ -6,6 +6,9 @@ import com.pokemonsystem.api.models.PokemonEntity;
 import com.pokemonsystem.api.repository.PokemonRepository;
 import com.pokemonsystem.api.service.PokemonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,15 +24,17 @@ public class PokemonServiceImpl implements PokemonService {
     }
 
     @Override
-    public List<PokemonDto> getPokemon() {
+    public List<PokemonDto> getPokemon(int pageNo, int pageSize) {
         /*
           PokemonEntity pokemon1 = pokemonRepository.findById(10)
                 .orElseThrow(() -> new PokemonNotFoundException("Pokemon not found"));
          */
 
-        List<PokemonEntity> pokemons = pokemonRepository.findAll();
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<PokemonEntity> pokemons = pokemonRepository.findAll(pageable);
+        List<PokemonEntity> listOfPokemons = pokemons.getContent();
 
-        return pokemons.stream().map(pokemon -> mapToDto(pokemon)).collect(Collectors.toList());
+        return listOfPokemons.stream().map(pokemon -> mapToDto(pokemon)).collect(Collectors.toList());
     }
 
     @Override

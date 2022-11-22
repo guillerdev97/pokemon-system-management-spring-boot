@@ -5,7 +5,9 @@ import com.pokemonsystem.api.models.PokemonEntity;
 import com.pokemonsystem.api.repository.PokemonRepository;
 import com.pokemonsystem.api.service.PokemonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PokemonServiceImpl implements PokemonService {
     private PokemonRepository pokemonRepository;
 

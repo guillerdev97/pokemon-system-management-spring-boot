@@ -1,7 +1,10 @@
 package com.pokemonsystem.api.controllers;
 
+import com.pokemonsystem.api.dto.PokemonDto;
 import com.pokemonsystem.api.models.PokemonEntity;
+import com.pokemonsystem.api.service.PokemonService;
 import com.sun.istack.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +25,14 @@ deletePokemon
 @RestController
 @RequestMapping("/api/")
 public class PokemonController {
+    // inject service
+    private PokemonService pokemonService;
+
+    @Autowired
+    public PokemonController(PokemonService pokemonService) {
+        this.pokemonService = pokemonService;
+    }
+
     // build endpoints
     @GetMapping("pokemon")
     public ResponseEntity<List<PokemonEntity>> getPokemons() {
@@ -42,11 +53,8 @@ public class PokemonController {
 
     @PostMapping("/pokemon/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<PokemonEntity> createPokemon(@RequestBody PokemonEntity pokemon) {
-        System.out.println(pokemon.getName());
-        System.out.println(pokemon.getType());
-
-        return new ResponseEntity<>(pokemon, HttpStatus.CREATED);
+    public ResponseEntity<PokemonDto> createPokemon(@RequestBody PokemonDto pokemonDto) {
+        return new ResponseEntity<>(pokemonService.createPokemon(pokemonDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/pokemon/{id}/update")

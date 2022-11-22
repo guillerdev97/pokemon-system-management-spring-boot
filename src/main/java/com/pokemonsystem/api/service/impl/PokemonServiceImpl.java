@@ -68,6 +68,14 @@ public class PokemonServiceImpl implements PokemonService {
         return mapToDto(updatePokemon);
     }
 
+    @Override
+    public void deletePokemon(int id) {
+        PokemonEntity pokemon = pokemonRepository.findById(id)
+                .orElseThrow(() -> new PokemonNotFoundException("Pokemon could not be deleted"));
+
+        pokemonRepository.delete(pokemon);
+    }
+
     private PokemonDto mapToDto(PokemonEntity pokemon) {
         PokemonDto pokemonDto = new PokemonDto();
 

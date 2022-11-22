@@ -12,4 +12,6 @@ public interface PokemonService {
     PokemonDto createPokemon(PokemonDto pokemonDto);
 
     PokemonDto updatePokemon(PokemonDto pokemonDto, int id);
+
+    void deletePokemon(int id);
 }

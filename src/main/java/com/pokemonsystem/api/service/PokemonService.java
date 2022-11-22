@@ -1,11 +1,12 @@
 package com.pokemonsystem.api.service;
 
 import com.pokemonsystem.api.dto.PokemonDto;
+import com.pokemonsystem.api.dto.PokemonResponse;
 
 import java.util.List;
 
 public interface PokemonService {
-    List<PokemonDto> getPokemon(int pageNo, int pageSize);
+    PokemonResponse getPokemon(int pageNo, int pageSize);
 
     PokemonDto detailPokemon(int  id);
 

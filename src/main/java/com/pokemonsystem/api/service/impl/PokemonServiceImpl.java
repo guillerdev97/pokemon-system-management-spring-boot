@@ -1,6 +1,7 @@
 package com.pokemonsystem.api.service.impl;
 
 import com.pokemonsystem.api.dto.PokemonDto;
+import com.pokemonsystem.api.dto.PokemonResponse;
 import com.pokemonsystem.api.exceptions.PokemonNotFoundException;
 import com.pokemonsystem.api.models.PokemonEntity;
 import com.pokemonsystem.api.repository.PokemonRepository;
@@ -24,7 +25,7 @@ public class PokemonServiceImpl implements PokemonService {
     }
 
     @Override
-    public List<PokemonDto> getPokemon(int pageNo, int pageSize) {
+    public PokemonResponse getPokemon(int pageNo, int pageSize) {
         /*
           PokemonEntity pokemon1 = pokemonRepository.findById(10)
                 .orElseThrow(() -> new PokemonNotFoundException("Pokemon not found"));
@@ -33,8 +34,17 @@ public class PokemonServiceImpl implements PokemonService {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<PokemonEntity> pokemons = pokemonRepository.findAll(pageable);
         List<PokemonEntity> listOfPokemons = pokemons.getContent();
+        List<PokemonDto> content = listOfPokemons.stream().map(p -> mapToDto(p)).collect(Collectors.toList());
 
-        return listOfPokemons.stream().map(pokemon -> mapToDto(pokemon)).collect(Collectors.toList());
+        PokemonResponse pokemonResponse = new PokemonResponse();
+        pokemonResponse.setContent(content);
+        pokemonResponse.setPageNo(pokemons.getNumber());
+        pokemonResponse.setPageSize(pokemons.getSize());
+        pokemonResponse.setTotalElements(pokemons.getTotalElements());
+        pokemonResponse.setTotalPages(pokemons.getTotalPages());
+        pokemonResponse.setLast(pokemons.isLast());
+
+        return pokemonResponse;
     }
 
     @Override

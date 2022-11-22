@@ -1,6 +1,7 @@
 package com.pokemonsystem.api.service.impl;
 
 import com.pokemonsystem.api.dto.PokemonDto;
+import com.pokemonsystem.api.exceptions.PokemonNotFoundException;
 import com.pokemonsystem.api.models.PokemonEntity;
 import com.pokemonsystem.api.repository.PokemonRepository;
 import com.pokemonsystem.api.service.PokemonService;
@@ -29,6 +30,14 @@ public class PokemonServiceImpl implements PokemonService {
         List<PokemonEntity> pokemons = pokemonRepository.findAll();
 
         return pokemons.stream().map(pokemon -> mapToDto(pokemon)).collect(Collectors.toList());
+    }
+
+    @Override
+    public PokemonDto detailPokemon(int id) {
+        PokemonEntity pokemon = pokemonRepository.findById(id)
+                .orElseThrow(() -> new PokemonNotFoundException("Pokemon could not be found"));
+
+        return mapToDto(pokemon);
     }
 
     @Override
@@ -65,6 +74,4 @@ public class PokemonServiceImpl implements PokemonService {
 
         return pokemon;
     }
-
-
 }

@@ -34,17 +34,14 @@ public class PokemonController {
     }
 
     // build endpoints
-    // getPokemons
     @GetMapping("pokemon")
     public ResponseEntity<List<PokemonDto>> getPokemons() {
         return ResponseEntity.ok().body(pokemonService.getPokemon());
     }
 
     @GetMapping("pokemon/{id}")
-    public ResponseEntity<PokemonEntity> pokemonDetail(@PathVariable int id) {
-        PokemonEntity pokemon = new PokemonEntity(id, "Squirtle", "Water");
-
-        return ResponseEntity.ok().body(pokemon);
+    public ResponseEntity<PokemonDto> pokemonDetail(@PathVariable int id) {
+        return ResponseEntity.ok().body(pokemonService.detailPokemon(id));
     }
 
     // createPokemon

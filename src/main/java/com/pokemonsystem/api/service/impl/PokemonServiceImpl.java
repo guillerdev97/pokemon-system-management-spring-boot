@@ -21,6 +21,11 @@ public class PokemonServiceImpl implements PokemonService {
 
     @Override
     public List<PokemonDto> getPokemon() {
+        /*
+          PokemonEntity pokemon1 = pokemonRepository.findById(10)
+                .orElseThrow(() -> new PokemonNotFoundException("Pokemon not found"));
+         */
+
         List<PokemonEntity> pokemons = pokemonRepository.findAll();
 
         return pokemons.stream().map(pokemon -> mapToDto(pokemon)).collect(Collectors.toList());
